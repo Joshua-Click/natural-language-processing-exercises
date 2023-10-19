@@ -20,12 +20,13 @@ def acquire_codeup_blog():
     user_agents = random.choice(user_agents)
     headers = {'User-Agent': user_agents[0]}
     base_url = 'https://codeup.edu/blog/'
+    response = requests.get(base_url, headers=headers)
     base_soup = BeautifulSoup(response.text, 'html.parser')
     blog_links = [element['href'] for element in base_soup.find_all('a', class_='more-link')]
     
     blog_contents = []
     for link in blog_links:
-        response = response.get(link, headers=headers)
+        response = requests.get(link, headers=headers)
         soup = BeautifulSoup(response.text, 'html.parser')
         title = soup.find('h1', class_='entry-title').text
         body = soup.find('div', class_='entry-content').text.strip()
